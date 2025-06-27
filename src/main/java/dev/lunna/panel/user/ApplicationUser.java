@@ -1,44 +1,54 @@
 package dev.lunna.panel.user;
 
+import dev.lunna.panel.security.model.RoleModel;
 import dev.lunna.panel.user.model.UserModel;
 import dev.lunna.panel.user.repository.UserRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
 public class ApplicationUser implements UserDetails {
   private final Long id; // Unique identifier for the user
+  private final String ip;
   private final UserRepository userRepository;
 
   public ApplicationUser(
       @NotNull final Long id,
+      @NotNull final String ip,
       @NotNull final UserRepository userRepository
   ) {
-    requireNonNull(id, "id must not be null");
-    requireNonNull(userRepository, "userRepository must not be null");
-
-    this.id = id;
-    this.userRepository = userRepository;
+    this.id = requireNonNull(id, "id must not be null");
+    this.ip = requireNonNull(ip, "ip must not be null");
+    this.userRepository = requireNonNull(userRepository, "userRepository must not be null");
   }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of();
+    return getUser().getRoles().stream()
+        .map(RoleModel::getPermissions)
+        .flatMap(Collection::stream)
+        .map(permission -> new SimpleGrantedAuthority(permission.getName()))
+        .toList();
   }
 
   @Override
   public String getPassword() {
-    return "";
+    return getUser().getPassword();
   }
 
   @Override
   public String getUsername() {
-    return "";
+    return getUser().getEmail();
+  }
+
+  @NotNull
+  public String getIp() {
+    return ip;
   }
 
   @NotNull

@@ -16,11 +16,11 @@ public class ApplicationUserFactory {
   }
 
   @NotNull
-  public ApplicationUser createUser(@NotNull final Long id) {
+  public ApplicationUser createUser(@NotNull final Long id, @NotNull final String ip) {
     if (!userRepository.existsById(id)) {
       throw new IllegalArgumentException("User with id " + id + " does not exist.");
     }
 
-    return new ApplicationUser(id, userRepository);
+    return new ApplicationUser(id, ip, userRepository);
   }
 }
