@@ -1,5 +1,6 @@
 package dev.lunna.panel.security.model;
 
+import dev.lunna.panel.core.model.BaseEntity;
 import dev.lunna.panel.user.model.UserModel;
 import jakarta.persistence.*;
 
@@ -7,10 +8,13 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "sessions")
-public class SessionModel {
+public class SessionModel extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  @Column(nullable = false, name = "user_id", updatable = false, insertable = false)
+  private Long userId;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "user_id", nullable = false)
@@ -22,9 +26,6 @@ public class SessionModel {
   @Column(name = "ip_address")
   private String ipAddress;
 
-  @Column(name = "created_at", nullable = false)
-  private Long createdAt;
-
   @Column(name = "expires_at", nullable = true)
   private Long expiresAt;
 
@@ -34,6 +35,14 @@ public class SessionModel {
 
   public Long getId() {
     return id;
+  }
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
   }
 
   public UserModel getUser() {
@@ -60,20 +69,16 @@ public class SessionModel {
     this.ipAddress = ipAddress;
   }
 
-  public Long getCreatedAt() {
-    return createdAt;
-  }
-
-  public void setCreatedAt(Long createdAt) {
-    this.createdAt = createdAt;
-  }
-
   public Long getExpiresAt() {
     return expiresAt;
   }
 
   public void setExpiresAt(Long expiresAt) {
     this.expiresAt = expiresAt;
+  }
+
+  public boolean isExpired() {
+    return expiresAt != null && System.currentTimeMillis() > expiresAt;
   }
 
   @Override
