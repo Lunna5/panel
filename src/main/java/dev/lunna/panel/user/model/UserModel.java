@@ -1,10 +1,12 @@
 package dev.lunna.panel.user.model;
 
+import dev.lunna.panel.core.model.BaseEntity;
 import dev.lunna.panel.security.model.RoleModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +15,7 @@ import static java.util.Objects.requireNonNull;
 @Table
 @Entity(name = "users")
 @Schema(description = "User model representing a user in the database.")
-public class UserModel {
+public class UserModel extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -46,7 +48,22 @@ public class UserModel {
 
   public UserModel() {}
 
-  public UserModel(String email, String username, String firstName, String lastName, String password, String totpSecret) {}
+  public UserModel(
+      String email,
+      String username,
+      String firstName,
+      @Nullable String lastName,
+      String password,
+      @Nullable String totpSecret
+  ) {
+    this.email = requireNonNull(email, "email must not be null");
+    this.username = requireNonNull(username, "username must not be null");
+    this.firstName = requireNonNull(firstName, "firstName must not be null");
+    this.lastName = lastName; // lastName can be null
+    this.password = requireNonNull(password, "password must not be null");
+    this.totpSecret = totpSecret; // totpSecret can be null
+    this.roles = new HashSet<>();
+  }
 
   public Long getId() {
     return id;
