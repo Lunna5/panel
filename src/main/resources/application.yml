@@ -30,6 +30,11 @@ panel:
         - OPTIONS
       allowed-headers: ["*"]
       exposed-headers: [Authorization]
+  proxy:
+    ip-header-names:
+      - X-Forwarded-For
+      - X-Real-IP
+    under-proxy: false
 springdoc:
   api-docs:
     enabled: true
