@@ -1,6 +1,7 @@
 package dev.lunna.panel.security;
 
 import dev.lunna.panel.security.config.CorsSettings;
+import dev.lunna.panel.security.filter.JwtAuthenticationFilter;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -18,12 +20,15 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfiguration {
   private final CorsSettings corsSettings;
+  private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
   @Autowired
   public SecurityConfiguration(
-      @NotNull final CorsSettings corsSettings
+      @NotNull final CorsSettings corsSettings,
+      @NotNull final JwtAuthenticationFilter jwtAuthenticationFilter
   ) {
     this.corsSettings = corsSettings;
+    this.jwtAuthenticationFilter = jwtAuthenticationFilter;
   }
 
   @Bean
@@ -37,6 +42,8 @@ public class SecurityConfiguration {
         .requestMatchers("/api/v1/auth/**").permitAll()
         .anyRequest().authenticated()
     );
+
+    http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }
