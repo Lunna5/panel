@@ -1,0 +1,40 @@
+[versions]
+jjwt = "0.12.6"
+jetbrainsAnnotations = "26.0.2"
+google-auto-value = "1.11.0"
+[libraries]
+spring-boot-starter-mail = { group = "org.springframework.boot", name = "spring-boot-starter-mail" }
+spring-boot-starter-oauth2-client = { group = "org.springframework.boot", name = "spring-boot-starter-oauth2-client" }
+spring-boot-starter-security = { group = "org.springframework.boot", name = "spring-boot-starter-security" }
+spring-boot-starter-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
+spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
+spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
+spring-boot-starter-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa" }
+spring-boot-devtools = { group = "org.springframework.boot", name = "spring-boot-devtools" }
+spring-boot-configuration-processor = { group = "org.springframework.boot", name = "spring-boot-configuration-processor" }
+spring-grpc-server-starter = { group = "org.springframework.grpc", name = "spring-grpc-server-web-spring-boot-starter" }
+spring-grpc-test = { group = "org.springframework.grpc", name = "spring-grpc-test" }
+grpc-services = { group = "io.grpc", name = "grpc-services" }
+spring-kafka = { group = "org.springframework.kafka", name = "spring-kafka" }
+spring-kafka-test = { group = "org.springframework.kafka", name = "spring-kafka-test" }
+spring-session-core = { group = "org.springframework.session", name = "spring-session-core" }
+spring-security-test = { group = "org.springframework.security", name = "spring-security-test" }
+mariadb-java-client = { group = "org.mariadb.jdbc", name = "mariadb-java-client" }
+google-auto-value-processor = { module = "com.google.auto.value:auto-value", version.ref = "google-auto-value" }
+google-auto-value-annotations = { module = "com.google.auto.value:auto-value-annotations", version.ref = "google-auto-value" }
+jjwt-api = { group = "io.jsonwebtoken", name = "jjwt-api", version.ref = "jjwt" }
+jjwt-impl = { group = "io.jsonwebtoken", name = "jjwt-impl", version.ref = "jjwt" }
+jjwt-gson = { group = "io.jsonwebtoken", name = "jjwt-gson", version.ref = "jjwt" }
+junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
+jetbrains-annotations = { group = "org.jetbrains", name = "annotations", version.ref = "jetbrainsAnnotations" }
+
+[bundles]
+jjwt-runtime = ["jjwt-impl", "jjwt-gson"]
+starter = [
+    "spring-boot-starter-web",
+    "spring-boot-starter-security",
+    "spring-boot-starter-validation",
+    "spring-boot-starter-mail",
+    "spring-boot-starter-oauth2-client",
+    "spring-boot-starter-jpa",
+]
