@@ -30,3 +30,6 @@ panel:
         - OPTIONS
       allowed-headers: ["*"]
       exposed-headers: [Authorization]
+springdoc:
+  api-docs:
+    enabled: true

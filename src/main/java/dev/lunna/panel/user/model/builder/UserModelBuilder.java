@@ -16,6 +16,6 @@ public abstract class UserModelBuilder {
   public abstract UserModelBuilder setEmail(@NotNull String email);
   public abstract UserModelBuilder setFirstName(@NotNull String firstName);
   public abstract UserModelBuilder setLastName(@NotNull String lastName);
-  public abstract UserModelBuilder setTotpSecret(@Nullable String totpSecret);
+  public abstract UserModelBuilder setTotpSecret(String totpSecret);
   public abstract UserModel build();
 }

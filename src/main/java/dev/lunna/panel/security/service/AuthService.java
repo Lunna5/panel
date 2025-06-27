@@ -30,9 +30,10 @@ public class AuthService {
 
   @Transactional
   public UserTokenResponse register(@NotNull final UserEmailLoginRequest request) {
-    if (userRepository.existsByEmail(request.getEmail())) {
-      throw new IllegalArgumentException("User with email " + request.getEmail() + " already exists.");
+    if (userRepository.existsByEmail(request.email())) {
+      throw new IllegalArgumentException("User with email " + request.email() + " already exists.");
     }
 
+    return null;
   }
 }

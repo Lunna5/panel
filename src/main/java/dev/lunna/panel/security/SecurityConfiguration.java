@@ -32,6 +32,8 @@ public class SecurityConfiguration {
     http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
     http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
     http.authorizeHttpRequests(auth -> auth
+        .requestMatchers("/v3/api-docs/**").permitAll()
+        .requestMatchers("/swagger-ui/**").permitAll()
         .requestMatchers("/api/v1/auth/**").permitAll()
         .anyRequest().authenticated()
     );

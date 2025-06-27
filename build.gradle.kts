@@ -39,6 +39,8 @@ dependencies {
   implementation(libs.jetbrains.annotations)
   implementation(libs.google.auto.value.annotations)
 
+  implementation(libs.springdoc.openapi.ui)
+
   implementation(libs.jjwt.api)
   runtimeOnly(libs.bundles.jjwt.runtime)
 

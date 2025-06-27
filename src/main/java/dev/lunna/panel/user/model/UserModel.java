@@ -1,6 +1,7 @@
 package dev.lunna.panel.user.model;
 
 import dev.lunna.panel.security.model.RoleModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,6 +12,7 @@ import static java.util.Objects.requireNonNull;
 
 @Table
 @Entity(name = "users")
+@Schema(description = "User model representing a user in the database.")
 public class UserModel {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

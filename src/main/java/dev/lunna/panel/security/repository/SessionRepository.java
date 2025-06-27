@@ -13,18 +13,18 @@ import java.util.List;
 public interface SessionRepository extends JpaRepository<SessionModel, Long> {
   List<SessionModel> findAllByUserId(Long userId);
 
-  @Query("""
-      SELECT s FROM SessionModel s
-      WHERE s.userId = :userId
-      AND (s.expiresAt IS NULL OR s.expiresAt > :currentTime)
-      """)
-  List<SessionModel> findActiveSessionsByUserId(
-      @Param("userId") Long userId,
-      @Param("currentTime") Instant currentTime
-  );
+  // @Query("""
+  //     SELECT s FROM SessionModel s
+  //     WHERE s.userId = :userId
+  //     AND (s.expiresAt IS NULL OR s.expiresAt > :currentTime)
+  //     """)
+  // List<SessionModel> findActiveSessionsByUserId(
+  //     @Param("userId") Long userId,
+  //     @Param("currentTime") Instant currentTime
+  // );
 
-  @Transactional
-  @Modifying
-  @Query("DELETE FROM SessionModel s WHERE s.expiresAt < :currentTime")
-  void deleteExpiredSessions(@Param("currentTime") Instant currentTime);
+  // @Transactional
+  // @Modifying
+  // @Query("DELETE FROM SessionModel s WHERE s.expiresAt < :currentTime")
+  // void deleteExpiredSessions(@Param("currentTime") Instant currentTime);
 }

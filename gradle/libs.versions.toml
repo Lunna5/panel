@@ -14,6 +14,7 @@ spring-boot-devtools = { group = "org.springframework.boot", name = "spring-boot
 spring-boot-configuration-processor = { group = "org.springframework.boot", name = "spring-boot-configuration-processor" }
 spring-grpc-server-starter = { group = "org.springframework.grpc", name = "spring-grpc-server-web-spring-boot-starter" }
 spring-grpc-test = { group = "org.springframework.grpc", name = "spring-grpc-test" }
+springdoc-openapi-ui = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version = "2.8.9" }
 grpc-services = { group = "io.grpc", name = "grpc-services" }
 spring-kafka = { group = "org.springframework.kafka", name = "spring-kafka" }
 spring-kafka-test = { group = "org.springframework.kafka", name = "spring-kafka-test" }
