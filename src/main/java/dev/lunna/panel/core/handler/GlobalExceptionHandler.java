@@ -1,7 +1,7 @@
 package dev.lunna.panel.core.handler;
 
 import dev.lunna.panel.core.exception.JsonBaseException;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,7 +14,7 @@ import java.util.Map;
 public class GlobalExceptionHandler {
   @ExceptionHandler(JsonBaseException.class)
   public ResponseEntity<Object> handleJsonBaseException(JsonBaseException ex) {
-    return new ResponseEntity<>(ex.toMap(), HttpStatus.valueOf(ex.getStatus()));
+    return new ResponseEntity<>(ex.getError().toMap(), HttpStatusCode.valueOf(ex.getError().status()));
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
