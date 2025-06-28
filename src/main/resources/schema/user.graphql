@@ -1,0 +1,118 @@
+"""
+This file contains GraphQL schema definitions for User management
+"""
+
+# Type definition for User entity
+type User {
+    # Unique identifier for the user
+    id: ID!
+
+    # User's email address (unique)
+    email: String!
+
+    # Username for authentication (unique)
+    username: String!
+
+    # User's first name
+    firstName: String!
+
+    # User's last name (optional)
+    lastName: String
+
+    # Collection of roles assigned to this user
+    roles: [Role!]!
+
+    # Creation timestamp from BaseEntity
+    createdAt: String!
+
+    # Last update timestamp from BaseEntity
+    updatedAt: String
+}
+
+# Input for creating a new user
+input CreateUserInput {
+    # User's email address (required, must be unique)
+    email: String!
+
+    # User's username for login (required, must be unique)
+    username: String!
+
+    # User's first name (required)
+    firstName: String!
+
+    # User's last name (optional)
+    lastName: String
+
+    # Initial password (required, will be encrypted)
+    password: String!
+
+    # Initial roles to assign (optional)
+    roleIds: [ID!]
+}
+
+# Input for updating an existing user
+input UpdateUserInput {
+    # Updated email address (optional)
+    email: String
+
+    # Updated username (optional)
+    username: String
+
+    # Updated first name (optional)
+    firstName: String
+
+    # Updated last name (optional)
+    lastName: String
+
+    # New password if changing (optional)
+    password: String
+}
+
+# Queries related to Users
+extend type Query {
+    # List all users - requires authentication and VIEW_USERS permission
+    users: [User!]! @auth @role(requires: VIEW_USERS)
+
+    # Get a specific user - requires authentication and VIEW_USERS permission
+    user(id: ID!): User @auth @role(requires: VIEW_USERS)
+
+    # Find a user by email - requires authentication and VIEW_USERS permission
+    userByEmail(email: String!): User @auth @role(requires: VIEW_USERS)
+
+    # Find a user by username - requires authentication and VIEW_USERS permission
+    userByUsername(username: String!): User @auth @role(requires: VIEW_USERS)
+
+    # Get current authenticated user - only requires authentication
+    me: User @auth
+}
+
+# Mutations related to Users
+extend type Mutation {
+    # Create a new user - requires CREATE_USER permission
+    createUser(input: CreateUserInput!): User! @auth @role(requires: CREATE_USER)
+
+    # Update an existing user - requires UPDATE_USER permission
+    updateUser(id: ID!, input: UpdateUserInput!): User! @auth @role(requires: UPDATE_USER)
+
+    # Delete a user - requires DELETE_USER permission
+    deleteUser(id: ID!): Boolean! @auth @role(requires: DELETE_USER)
+
+    # Add a role to a user - requires ADD_ROLE_TO_USER permission
+    addRoleToUser(userId: ID!, roleId: ID!): User! @auth @role(requires: ADD_ROLE_TO_USER)
+
+    # Remove a role from a user - requires REMOVE_ROLE_FROM_USER permission
+    removeRoleFromUser(userId: ID!, roleId: ID!): User! @auth @role(requires: REMOVE_ROLE_FROM_USER)
+
+    # Enable two-factor auth - requires UPDATE_USER or can be applied to own user
+    enableTwoFactorAuth(userId: ID!): String! @auth
+
+    # Disable two-factor auth - requires UPDATE_USER or can be applied to own user
+    disableTwoFactorAuth(userId: ID!): Boolean! @auth
+
+    # Change password - requires authentication (special logic may be needed)
+    changePassword(
+        userId: ID!,
+        currentPassword: String!,
+        newPassword: String!
+    ): Boolean! @auth
+}

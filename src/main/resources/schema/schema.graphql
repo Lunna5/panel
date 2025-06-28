@@ -1,0 +1,43 @@
+"""
+Directives for authentication and authorization
+"""
+type Query {
+    # Required dummy field for empty types
+    _empty: String
+}
+
+type Mutation {
+    # Required dummy field for empty types
+    _empty: String
+}
+
+# Define available permission values as an enum
+enum Permissions {
+    # User permissions
+    VIEW_USERS
+    CREATE_USER
+    UPDATE_USER
+    DELETE_USER
+
+    # Role permissions
+    VIEW_ROLES
+    CREATE_ROLE
+    UPDATE_ROLE
+    DELETE_ROLE
+    ADD_ROLE_TO_USER
+    REMOVE_ROLE_FROM_USER
+
+    # Permission management
+    VIEW_PERMISSIONS
+    CREATE_PERMISSION
+    UPDATE_PERMISSION
+    DELETE_PERMISSION
+    ADD_PERMISSION_TO_ROLE
+    REMOVE_PERMISSION_FROM_ROLE
+}
+
+# Authentication directive - requires the user to be authenticated
+directive @auth on FIELD_DEFINITION | OBJECT
+
+# Role-based permission directive - requires the user to have specific permission
+directive @role(requires: Permissions!) on FIELD_DEFINITION | OBJECT

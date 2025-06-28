@@ -1,0 +1,120 @@
+"""
+This file contains GraphQL schema definitions for Roles and Permissions management
+"""
+
+# Type definition for Role entity
+type Role {
+    # Unique identifier for the role
+    id: ID!
+
+    # Name of the role (unique)
+    name: String!
+
+    # Description of what this role represents
+    description: String
+
+    # Collection of permissions assigned to this role
+    permissions: [Permission!]!
+}
+
+# Type definition for Permission entity
+type Permission {
+    # Unique identifier for the permission
+    id: ID!
+
+    # Name of the permission (unique)
+    name: String!
+
+    # Description of what actions this permission allows
+    description: String
+}
+
+# Input for creating a new role
+input CreateRoleInput {
+    # Name of the role (required, must be unique)
+    name: String!
+
+    # Description of the role (optional)
+    description: String
+
+    # Initial permissions to assign to this role (optional)
+    permissionIds: [ID!]
+}
+
+# Input for updating an existing role
+input UpdateRoleInput {
+    # New name for the role (optional)
+    name: String
+
+    # New description for the role (optional)
+    description: String
+}
+
+# Input for creating a new permission
+input CreatePermissionInput {
+    # Name of the permission (required, must be unique)
+    name: String!
+
+    # Description of the permission (optional)
+    description: String
+}
+
+# Input for updating an existing permission
+input UpdatePermissionInput {
+    # New name for the permission (optional)
+    name: String
+
+    # New description for the permission (optional)
+    description: String
+}
+
+# Queries related to Roles and Permissions
+extend type Query {
+    # Get all roles in the system
+    roles: [Role!]!
+
+    # Get a specific role by ID
+    role(id: ID!): Role
+
+    # Get a role by its name
+    roleByName(name: String!): Role
+
+    # Get all permissions in the system
+    permissions: [Permission!]!
+
+    # Get a specific permission by ID
+    permission(id: ID!): Permission
+
+    # Get a permission by its name
+    permissionByName(name: String!): Permission
+}
+
+# Mutations related to Roles and Permissions
+extend type Mutation {
+    # Create a new role
+    createRole(input: CreateRoleInput!): Role!
+
+    # Update an existing role
+    updateRole(id: ID!, input: UpdateRoleInput!): Role!
+
+    # Delete a role
+    deleteRole(id: ID!): Boolean!
+
+    # Create a new permission
+    createPermission(input: CreatePermissionInput!): Permission!
+
+    # Update an existing permission
+    updatePermission(id: ID!, input: UpdatePermissionInput!): Permission!
+
+    # Delete a permission
+    deletePermission(id: ID!): Boolean!
+
+    # Add a permission to a role
+    addPermissionToRole(roleId: ID!, permissionId: ID!): Role!
+
+    # Remove a permission from a role
+    removePermissionFromRole(roleId: ID!, permissionId: ID!): Role!
+
+    # Set all permissions for a role (replaces existing permissions)
+    setRolePermissions(roleId: ID!, permissionIds: [ID!]!): Role!
+}
