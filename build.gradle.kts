@@ -21,12 +21,14 @@ repositories {
 }
 
 extra["springGrpcVersion"] = "0.8.0"
+val netflixDgsVersion by extra("10.2.1")
 
 dependencies {
   implementation(libs.bundles.starter)
   implementation(libs.grpc.services)
   implementation(libs.spring.grpc.server.starter)
   implementation(libs.spring.session.core)
+  implementation("org.springframework.boot:spring-boot-starter-actuator")
   developmentOnly(libs.spring.boot.devtools)
   runtimeOnly(libs.mariadb.java.client)
   annotationProcessor(libs.spring.boot.configuration.processor)
@@ -70,6 +72,7 @@ tasks {
 dependencyManagement {
   imports {
     mavenBom("org.springframework.grpc:spring-grpc-dependencies:${property("springGrpcVersion")}")
+    mavenBom("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:${property("netflixDgsVersion")}")
   }
 }
 
