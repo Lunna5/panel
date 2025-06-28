@@ -39,6 +39,8 @@ public class SecurityConfiguration {
     http.authorizeHttpRequests(auth -> auth
         .requestMatchers("/v3/api-docs/**").permitAll()
         .requestMatchers("/swagger-ui/**").permitAll()
+        .requestMatchers("/graphql").permitAll()
+        .requestMatchers("/graphiql").permitAll()
         .requestMatchers("/api/v1/auth/**").permitAll()
         .anyRequest().authenticated()
     );
