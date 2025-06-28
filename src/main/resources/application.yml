@@ -13,6 +13,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDBDialect
+  threads:
+    virtual:
+      enabled: true
 panel:
   security:
     jwt:
@@ -38,3 +41,10 @@ panel:
 springdoc:
   api-docs:
     enabled: true
+dgs:
+  graphql:
+    path: /graphql
+    graphiql:
+      enabled: ${GRAPHIQL_ENABLED:true}
+    virtualthreads:
+      enabled: true
