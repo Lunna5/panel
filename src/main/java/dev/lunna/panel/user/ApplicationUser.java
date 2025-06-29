@@ -36,6 +36,21 @@ public class ApplicationUser implements UserDetails {
         .toList();
   }
 
+  public boolean hasPermission(@NotNull final String permissionName) {
+    return getAuthorities().stream()
+        .anyMatch(authority -> authority.getAuthority().equals(permissionName));
+  }
+
+  public boolean hasPermissions(@NotNull final String... permissionNames) {
+    for (String permissionName : permissionNames) {
+      if (!hasPermission(permissionName)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   @Override
   public String getPassword() {
     return getUser().getPassword();
