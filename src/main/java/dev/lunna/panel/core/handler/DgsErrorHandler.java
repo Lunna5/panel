@@ -1,4 +1,4 @@
-package dev.lunna.panel.security.dgs.handler;
+package dev.lunna.panel.core.handler;
 
 import com.netflix.graphql.types.errors.ErrorType;
 import dev.lunna.panel.core.exception.JsonBaseException;
