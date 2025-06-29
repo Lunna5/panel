@@ -4,115 +4,74 @@ This file contains GraphQL schema definitions for User management
 
 # Type definition for User entity
 type User {
-    # Unique identifier for the user
     id: ID!
-
-    # User's email address (unique)
     email: String!
-
-    # Username for authentication (unique)
     username: String!
-
-    # User's first name
     firstName: String!
-
-    # User's last name (optional)
     lastName: String
-
-    # Collection of roles assigned to this user
     roles: [Role!]!
-
-    # Creation timestamp from BaseEntity
     createdAt: String!
-
-    # Last update timestamp from BaseEntity
     updatedAt: String
+}
+
+type UserPage implements PageInfo {
+    content: [User!]!
+    totalPages: Int!
+    totalElements: Int!
+    size: Int!
+    isLast: Boolean!
 }
 
 # Input for creating a new user
 input CreateUserInput {
-    # User's email address (required, must be unique)
     email: String!
-
-    # User's username for login (required, must be unique)
     username: String!
-
-    # User's first name (required)
     firstName: String!
-
-    # User's last name (optional)
     lastName: String
-
-    # Initial password (required, will be encrypted)
     password: String!
-
-    # Initial roles to assign (optional)
     roleIds: [ID!]
 }
 
-# Input for updating an existing user
 input UpdateUserInput {
-    # Updated email address (optional)
     email: String
-
-    # Updated username (optional)
     username: String
-
-    # Updated first name (optional)
     firstName: String
-
-    # Updated last name (optional)
     lastName: String
-
-    # New password if changing (optional)
     password: String
 }
 
 # Queries related to Users
 extend type Query {
-    # List all users - requires authentication and VIEW_USERS permission
-    users: [User!]! @auth @role(requires: VIEW_USERS)
+    users(page: Int! = 0): UserPage! @auth(permissions: ["admin.users.manage.list"])
 
-    # Get a specific user - requires authentication and VIEW_USERS permission
-    user(id: ID!): User @auth @role(requires: VIEW_USERS)
+    user(id: ID!): User @auth(permissions: ["admin.users.manage.list"])
 
-    # Find a user by email - requires authentication and VIEW_USERS permission
-    userByEmail(email: String!): User @auth @role(requires: VIEW_USERS)
+    userByEmail(email: String!): User @auth(permissions: ["admin.users.manage.view"])
 
-    # Find a user by username - requires authentication and VIEW_USERS permission
-    userByUsername(username: String!): User @auth @role(requires: VIEW_USERS)
+    userByUsername(username: String!): User @auth(permissions: ["admin.users.manage.view"])
 
-    # Get current authenticated user - only requires authentication
     me: User @auth
 }
 
 # Mutations related to Users
 extend type Mutation {
-    # Create a new user - requires CREATE_USER permission
-    createUser(input: CreateUserInput!): User! @auth @role(requires: CREATE_USER)
+    createUser(input: CreateUserInput!): User! @auth(permissions: ["admin.users.manage.create"])
 
-    # Update an existing user - requires UPDATE_USER permission
-    updateUser(id: ID!, input: UpdateUserInput!): User! @auth @role(requires: UPDATE_USER)
+    updateUser(id: ID!, input: UpdateUserInput!): User! @auth(permissions: ["admin.users.manage.update"])
 
-    # Delete a user - requires DELETE_USER permission
-    deleteUser(id: ID!): Boolean! @auth @role(requires: DELETE_USER)
+    deleteUser(id: ID!): Boolean! @auth(permissions: ["admin.users.manage.delete"])
 
-    # Add a role to a user - requires ADD_ROLE_TO_USER permission
-    addRoleToUser(userId: ID!, roleId: ID!): User! @auth @role(requires: ADD_ROLE_TO_USER)
+    addRoleToUser(userId: ID!, roleId: ID!): User! @auth(permissions: ["admin.users.manage.roles"])
 
-    # Remove a role from a user - requires REMOVE_ROLE_FROM_USER permission
-    removeRoleFromUser(userId: ID!, roleId: ID!): User! @auth @role(requires: REMOVE_ROLE_FROM_USER)
+    removeRoleFromUser(userId: ID!, roleId: ID!): User! @auth(permissions: ["admin.users.manage.roles"])
 
-    # Enable two-factor auth - requires UPDATE_USER or can be applied to own user
-    enableTwoFactorAuth(userId: ID!): String! @auth
+    enableTwoFactorAuth(userId: ID!): String! @auth(permissions: ["admin.users.manage.update"])
 
-    # Disable two-factor auth - requires UPDATE_USER or can be applied to own user
-    disableTwoFactorAuth(userId: ID!): Boolean! @auth
+    disableTwoFactorAuth(userId: ID!): Boolean! @auth(permissions: ["admin.users.manage.update"])
 
-    # Change password - requires authentication (special logic may be needed)
     changePassword(
         userId: ID!,
         currentPassword: String!,
         newPassword: String!
-    ): Boolean! @auth
+    ): Boolean! @auth(permissions: ["admin.users.manage.update.password"])
 }
