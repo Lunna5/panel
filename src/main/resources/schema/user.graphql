@@ -44,7 +44,7 @@ input UpdateUserInput {
 extend type Query {
     users(page: Int! = 0): UserPage! @auth(permissions: ["admin.users.manage.list"])
 
-    user(id: ID!): User @auth(permissions: ["admin.users.manage.list"])
+    user(id: Long!): User @auth(permissions: ["admin.users.manage.list"])
 
     userByEmail(email: String!): User @auth(permissions: ["admin.users.manage.view"])
 
