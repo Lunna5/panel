@@ -43,4 +43,19 @@ public class UserController {
 
     return userRepository.findAll(pageable);
   }
+
+  @DgsQuery
+  public UserModel user(@InputArgument Long id) {
+    return userRepository.findById(id).orElseGet(() -> null);
+  }
+
+  @DgsQuery
+  public UserModel userByEmail(@InputArgument String email) {
+    return userRepository.findByEmail(email).orElseGet(() -> null);
+  }
+
+  @DgsQuery
+  public UserModel userByUsername(@InputArgument String username) {
+    return userRepository.findByUsername((username)).orElseGet(() -> null);
+  }
 }
