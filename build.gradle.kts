@@ -28,7 +28,7 @@ dependencies {
   implementation(libs.grpc.services)
   implementation(libs.spring.grpc.server.starter)
   implementation(libs.spring.session.core)
-  implementation("org.springframework.boot:spring-boot-starter-actuator")
+  implementation(libs.netflix.dgs.graphql.scalars)
   developmentOnly(libs.spring.boot.devtools)
   runtimeOnly(libs.mariadb.java.client)
   annotationProcessor(libs.spring.boot.configuration.processor)
@@ -37,6 +37,8 @@ dependencies {
   testImplementation(libs.spring.kafka.test)
   testImplementation(libs.spring.security.test)
   testRuntimeOnly(libs.junit.platform.launcher)
+
+  implementation("org.springframework.boot:spring-boot-starter-actuator")
 
   implementation(libs.jetbrains.annotations)
   implementation(libs.google.auto.value.annotations)
