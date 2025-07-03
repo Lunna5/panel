@@ -1,6 +1,5 @@
-"""
-Directives for authentication and authorization
-"""
+scalar Long
+
 type Query {
     # Required dummy field for empty types
     _empty: String
