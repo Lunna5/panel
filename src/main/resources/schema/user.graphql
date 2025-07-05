@@ -4,7 +4,7 @@ This file contains GraphQL schema definitions for User management
 
 # Type definition for User entity
 type User {
-    id: ID!
+    id: Long!
     email: String!
     username: String!
     firstName: String!
@@ -29,15 +29,15 @@ input CreateUserInput {
     firstName: String!
     lastName: String
     password: String!
-    roleIds: [ID!]
+    roles: [Long!]
 }
 
 input UpdateUserInput {
-    email: String
+    email: String @auth(permissions: ["admin.users.manage.update.email"])
     username: String
     firstName: String
     lastName: String
-    password: String
+    password: String @auth(permissions: ["admin.users.manage.update.password"])
 }
 
 # Queries related to Users
@@ -57,21 +57,15 @@ extend type Query {
 extend type Mutation {
     createUser(input: CreateUserInput!): User! @auth(permissions: ["admin.users.manage.create"])
 
-    updateUser(id: ID!, input: UpdateUserInput!): User! @auth(permissions: ["admin.users.manage.update"])
+    updateUser(id: Long!, input: UpdateUserInput!): User! @auth(permissions: ["admin.users.manage.update"])
 
-    deleteUser(id: ID!): Boolean! @auth(permissions: ["admin.users.manage.delete"])
+    deleteUser(id: Long!): Boolean! @auth(permissions: ["admin.users.manage.delete"])
 
-    addRoleToUser(userId: ID!, roleId: ID!): User! @auth(permissions: ["admin.users.manage.roles"])
+    addRoleToUser(userId: Long!, roleId: Long!): User! @auth(permissions: ["admin.users.manage.roles"])
 
-    removeRoleFromUser(userId: ID!, roleId: ID!): User! @auth(permissions: ["admin.users.manage.roles"])
+    removeRoleFromUser(userId: Long!, roleId: Long!): User! @auth(permissions: ["admin.users.manage.roles"])
 
-    enableTwoFactorAuth(userId: ID!): String! @auth(permissions: ["admin.users.manage.update"])
+    enableTwoFactorAuth(userId: Long!): String! @auth(permissions: ["admin.users.manage.update"]) # TODO: Implement two-factor auth logic
 
-    disableTwoFactorAuth(userId: ID!): Boolean! @auth(permissions: ["admin.users.manage.update"])
-
-    changePassword(
-        userId: ID!,
-        currentPassword: String!,
-        newPassword: String!
-    ): Boolean! @auth(permissions: ["admin.users.manage.update.password"])
+    disableTwoFactorAuth(userId: Long!): Boolean! @auth(permissions: ["admin.users.manage.update"]) # TODO: Implement two-factor auth logic
 }
