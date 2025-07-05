@@ -18,4 +18,4 @@ interface PageInfo {
 }
 
 # Authentication directive - requires the user to be authenticated
-directive @auth(permissions: [String!]) on FIELD_DEFINITION | OBJECT | INTERFACE
+directive @auth(permissions: [String!]) on FIELD_DEFINITION | OBJECT | INTERFACE | INPUT_FIELD_DEFINITION
