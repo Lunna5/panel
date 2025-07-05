@@ -1,8 +1,8 @@
 package dev.lunna.panel.security.controller;
 
 import dev.lunna.panel.core.exception.JsonError;
-import dev.lunna.panel.security.dto.request.UserEmailLoginRequest;
-import dev.lunna.panel.security.dto.request.UserRegisterRequest;
+import dev.lunna.panel.security.dto.request.EmailLoginUserInput;
+import dev.lunna.panel.security.dto.request.CreateUserInput;
 import dev.lunna.panel.security.dto.response.UserTokenResponse;
 import dev.lunna.panel.security.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,7 +37,7 @@ public class AuthController {
       description = "Creates a new user account and returns an authentication token",
       requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
           description = "User registration details",
-          content = @Content(schema = @Schema(implementation = UserRegisterRequest.class), examples = {
+          content = @Content(schema = @Schema(implementation = CreateUserInput.class), examples = {
               @ExampleObject(
                   name = "Lunna",
                   value = """
@@ -63,7 +63,7 @@ public class AuthController {
   })
   @PostMapping("/register")
   public UserTokenResponse register(
-      @NotNull @Valid @RequestBody final UserRegisterRequest request,
+      @NotNull @Valid @RequestBody final CreateUserInput request,
       @NotNull final HttpServletRequest httpServletRequest
   ) {
     return authService.register(request, httpServletRequest);
@@ -83,7 +83,7 @@ public class AuthController {
   })
   @PostMapping("/login")
   public UserTokenResponse login(
-      @NotNull @Valid @RequestBody final UserEmailLoginRequest request,
+      @NotNull @Valid @RequestBody final EmailLoginUserInput request,
       @NotNull final HttpServletRequest httpServletRequest
   ) {
     return authService.login(request, httpServletRequest);

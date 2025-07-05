@@ -1,11 +1,11 @@
 package dev.lunna.panel.security.service;
 
-import dev.lunna.panel.security.dto.request.UserEmailLoginRequest;
-import dev.lunna.panel.security.dto.request.UserRegisterRequest;
+import dev.lunna.panel.security.dto.request.EmailLoginUserInput;
+import dev.lunna.panel.security.dto.request.CreateUserInput;
 import dev.lunna.panel.security.dto.response.UserTokenResponse;
 import dev.lunna.panel.security.exception.CredentialsNotMatchException;
 import dev.lunna.panel.security.exception.TokenExpiredException;
-import dev.lunna.panel.security.factory.UserModelFactory;
+import dev.lunna.panel.user.service.UserService;
 import dev.lunna.panel.security.repository.SessionRepository;
 import dev.lunna.panel.security.service.hasher.PasswordHasherService;
 import dev.lunna.panel.user.model.UserModel;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
   private final UserRepository userRepository;
   private final SessionRepository sessionRepository;
-  private final UserModelFactory userModelFactory;
+  private final UserService userService;
   private final SessionService sessionService;
   private final PasswordHasherService passwordHasherService;
   private final JwtService jwtService;
@@ -27,14 +27,14 @@ public class AuthService {
   public AuthService(
       @NotNull final UserRepository userRepository,
       @NotNull final SessionRepository sessionRepository,
-      @NotNull final UserModelFactory userModelFactory,
+      @NotNull final UserService userService,
       @NotNull final SessionService sessionService,
       @NotNull final PasswordHasherService passwordHasherService,
       @NotNull final JwtService jwtService
   ) {
     this.userRepository = userRepository;
     this.sessionRepository = sessionRepository;
-    this.userModelFactory = userModelFactory;
+    this.userService = userService;
     this.sessionService = sessionService;
     this.passwordHasherService = passwordHasherService;
     this.jwtService = jwtService;
@@ -42,7 +42,7 @@ public class AuthService {
 
   @Transactional
   public UserTokenResponse login(
-      @NotNull final UserEmailLoginRequest request,
+      @NotNull final EmailLoginUserInput request,
       @NotNull final HttpServletRequest httpServletRequest
   ) {
     final var user = userRepository.findByEmail(request.email())
@@ -63,10 +63,10 @@ public class AuthService {
 
   @Transactional
   public UserTokenResponse register(
-      @NotNull final UserRegisterRequest request,
+      @NotNull final CreateUserInput request,
       @NotNull final HttpServletRequest httpServletRequest
   ) {
-    final var model = userModelFactory.createUser(request);
+    final var model = userService.createUser(request, false);
 
     return new UserTokenResponse(sessionService.createSession(model.getId(), httpServletRequest));
   }
