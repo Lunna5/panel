@@ -43,7 +43,7 @@ public class UserController {
       throw new IllegalArgumentException("Page number must be greater than or equal to 1");
     }
 
-    Pageable pageable = Pageable.ofSize(10).withPage(page != null ? page - 1 : 0);
+    Pageable pageable = Pageable.ofSize(10).withPage(page != null ? page - 1 : 0); // TODO: make page size configurable
 
     return userRepository.findAll(pageable);
   }
