@@ -46,7 +46,8 @@ public class UserModel extends BaseEntity {
   )
   private Set<RoleModel> roles = new HashSet<>();
 
-  public UserModel() {}
+  public UserModel() {
+  }
 
   public UserModel(
       String email,
@@ -121,5 +122,29 @@ public class UserModel extends BaseEntity {
     if (roles != null) {
       roles.remove(role);
     }
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
   }
 }
