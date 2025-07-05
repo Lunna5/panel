@@ -10,7 +10,6 @@ import java.util.Set;
 @Entity
 @Table(name = "organization_groups")
 public class OrganizationGroupModel {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
