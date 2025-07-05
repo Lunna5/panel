@@ -29,6 +29,8 @@ dependencies {
   implementation(libs.spring.grpc.server.starter)
   implementation(libs.spring.session.core)
   implementation(libs.netflix.dgs.graphql.scalars)
+  implementation(libs.flyway.core)
+  implementation("org.flywaydb:flyway-mysql")
   developmentOnly(libs.spring.boot.devtools)
   runtimeOnly(libs.mariadb.java.client)
   annotationProcessor(libs.spring.boot.configuration.processor)

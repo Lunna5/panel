@@ -17,6 +17,7 @@ spring-grpc-test = { group = "org.springframework.grpc", name = "spring-grpc-tes
 springdoc-openapi-ui = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version = "2.8.9" }
 grpc-services = { group = "io.grpc", name = "grpc-services" }
 spring-kafka = { group = "org.springframework.kafka", name = "spring-kafka" }
+flyway-core = { group = "org.flywaydb", name = "flyway-core" }
 spring-kafka-test = { group = "org.springframework.kafka", name = "spring-kafka-test" }
 spring-session-core = { group = "org.springframework.session", name = "spring-session-core" }
 spring-security-test = { group = "org.springframework.security", name = "spring-security-test" }
